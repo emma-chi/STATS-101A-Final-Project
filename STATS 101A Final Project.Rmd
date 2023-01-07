@@ -1,0 +1,59 @@
+---
+title: "STATS 101A Final Project"
+author: "Emma Chi"
+date: "3/9/2022"
+output: pdf_document
+---
+
+```{r}
+library(readr)
+lol <- read.csv("lol_games.csv")
+new.lol <- lol[-c(1:2)]
+```
+## We excluded game ID and game Duration from the data. The data should now only consist of the response and its predictors.
+
+# Fit the Model
+*Multiple linear regression model*
+$$
+Y = \beta_0 + \sum_{j=1}^{52} \beta_j X_j + \epsilon
+$$
+```{r}
+mlr.model = lm(goldDiff~., data = new.lol)
+summary(mlr.model)
+```
+# Let $\alpha$ = 0.05
+
+# We got rid of the predictors that had NA as their values as they were linear dependencies
+
+```{r}
+not.significant <- lol[-c(1:2, 7:11, 13:16, 27, 32:33, 35:36, 53)]
+not.sig.model <- lm(goldDiff~., data = not.significant)
+summary(not.sig.model)
+```
+
+```{r}
+library(corrplot)
+# data set without the response
+no.response <- lol[-c(1:3, 7:11, 13:16, 27, 32:33, 35:36, 53)]
+# Visualize the aliasing in the model matrix, excluding the intercept.
+X <- model.matrix(~.-1, no.response)
+
+# Create color map on pairwise correlations.
+contrast.vectors.correlations <- cor(X)
+corrplot(contrast.vectors.correlations, type = "full", addgrid.col = "gray",
+tl.col = "black", tl.srt = 90, method = "color", tl.cex=0.8)
+```
+
+```{r}
+newlol1 <- lol[-c(1:11, 13:16, 20, 24, 27:31, 32:33, 35:36, 50:53, 55)]
+X1 <- model.matrix(~.-1, newlol1)
+
+# Create color map on pairwise correlations.
+contrast.vectors.correlations.1 <- cor(X1)
+corrplot(contrast.vectors.correlations.1, type = "full", addgrid.col = "gray",
+tl.col = "black", tl.srt = 90, method = "color", tl.cex=0.8)
+```
+
+
+
+
