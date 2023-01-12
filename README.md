@@ -1,4 +1,4 @@
-# STATS-101A-Final-Project
+# Exploring League of Legends Team Performance Using Multicollinearity and Regression
 
 
 ## by Emma Chi, Brandon Louie, and Tiffany Minami
